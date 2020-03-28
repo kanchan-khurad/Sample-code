@@ -1,0 +1,43 @@
+import numpy as np
+
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        my_list = list(s)
+        map_arr = np.zeros((len(my_list),len(my_list)))
+        if len(my_list) > 0:
+            map_arr[0,:] = 1
+        else:
+            return ""
+        
+        
+        for j in range(len(my_list)-1):
+            
+            if my_list[1+j] == my_list[j]:
+                map_arr[1,j+1] = 1
+        
+
+        
+        for i in range(2, len(my_list)):
+            for j in range(len(my_list)-i):
+                
+                if my_list[i+j] == my_list[j] and map_arr[i-2, j+i-1] == 1:
+                    map_arr[i,j+i] = 1
+        
+        #print map_arr
+        
+        op = np.sum(map_arr, axis= 1)
+        
+        row_id = np.max(np.nonzero(op))
+        #print row_id
+        end_id = int(np.max(np.nonzero(map_arr[row_id,:])))
+        
+        start_id = end_id - row_id
+        str1  = ""
+        #print end_id, start_id
+        
+        return str1.join(my_list[int(start_id):end_id+1])
