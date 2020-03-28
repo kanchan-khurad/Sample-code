@@ -1,0 +1,79 @@
+class Solution(object):
+    def findSubstring(self, s, words):
+        """
+        :type s: str
+        :type words: List[str]
+        :rtype: List[int]
+        """
+        str_list = list(s)
+        
+        
+        if len(words) == 0:
+            return []
+        
+        main_list = []
+        if len(set(words)) == 1 and len(set(s)) == 1 and len(set(words[0])) == 1:
+            i = 0
+            while i-1+len(words[0])*len(words) < len(s):
+                main_list.append(i)
+                i = i+1
+            return main_list
+        
+        word_len  = len(words[0])
+        concat_len = len(words[0])*len(words)
+        
+        #print concat_len       
+        
+        words_copy = list(words)
+        #print words_copy
+        #print words
+        
+        count = 0
+        
+        i = 0
+        start = 0
+        start_new = 0
+        while i < len(s):
+            
+            if s[i:i+word_len] in words:
+                
+                #print words_copy, s[i:i+word_len], count
+                if s[i:i+word_len] in words_copy:
+                    #print words_copy, s[i:i+word_len]
+                
+                    words_copy.remove(s[i:i+word_len])
+                    count = count + 1
+                    i = i + word_len
+                    
+                    
+                    if count == len(words):
+                        #print "hello", count, i
+                        
+                        if i - concat_len not in main_list:
+                            main_list.append(i - concat_len)
+                else:
+                    
+                    words_copy = list(words)
+                    
+                    #s = s[(start+1)*word_len:len(s)]
+                    #print "check", s
+                    i = (start+1)*word_len
+                    #print i, "index", coun
+                    count = 0
+                    start = start + 1
+                    
+                
+                #print s_new
+                    
+            
+            else:
+                
+            
+                #i = i+ 1
+                i = start_new+1
+                start_new = start_new + 1
+                
+                count = 0
+                words_copy = list(words)
+            
+        return main_list
